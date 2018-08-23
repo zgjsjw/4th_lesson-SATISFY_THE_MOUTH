@@ -1,0 +1,332 @@
+人均最高5238.0元
+人均最低3.0元
+平均消费108.27元
+
+我（价）最（格）想（最）吃（贵）：
+ Cuisine                                    西餐
+Name               Ultraviolet by Paul Pairet
+Star                                       50
+Comments                                  448
+Per_Consumption                          5238
+Taste                                     9.1
+Environment                               9.3
+Service                                   9.3
+Location                           中山东一路18号6楼
+Name: 10633, dtype: object
+
+评论最多38275.0
+人气最旺：
+ Cuisine                          川菜
+Name                 辛香汇(亚龙国际广场店)分店
+Star                             40
+Comments                      38275
+Per_Consumption                  68
+Taste                           7.4
+Environment                     6.6
+Service                         6.4
+Location           金陵东路500号亚龙国际广场4层
+Name: 1747, dtype: object
+评论最少1.0
+
+口味最好：
+ Cuisine                     蟹宴
+Name               黄记阳澄湖大闸蟹专卖店
+Star                        50
+Comments                   374
+Per_Consumption            170
+Taste                      9.3
+Environment                  9
+Service                    9.3
+Location            乌鲁木齐中路308号
+Name: 35, dtype: object
+口味最好：
+ Cuisine                               海鲜
+Name                                大钏锅物
+Star                                  50
+Comments                             402
+Per_Consumption                      337
+Taste                                9.3
+Environment                          9.3
+Service                              9.3
+Location           福山路312号世纪大都会B1层B110B室
+Name: 216, dtype: object
+口味最好：
+ Cuisine                贵州菜
+Name                  多彩贵州
+Star                    50
+Comments               140
+Per_Consumption         38
+Taste                  9.3
+Environment              9
+Service                9.3
+Location           四平路716号
+Name: 858, dtype: object
+口味最好：
+ Cuisine                  本帮江浙菜
+Name               黄记阳澄湖大闸蟹专卖店
+Star                        50
+Comments                   374
+Per_Consumption            170
+Taste                      9.3
+Environment                  9
+Service                    9.3
+Location            乌鲁木齐中路308号
+Name: 3590, dtype: object
+口味最好：
+ Cuisine                     火锅
+Name               季悦火锅(锦江店)分店
+Star                        50
+Comments                   446
+Per_Consumption            886
+Taste                      9.3
+Environment                9.4
+Service                    9.3
+Location               茂名南路59号
+Name: 5857, dtype: object
+口味最好：
+ Cuisine                       火锅
+Name                赤鼎麻辣锅(巴黎春天店)
+Star                          50
+Comments                     621
+Per_Consumption              130
+Taste                        9.3
+Environment                  9.2
+Service                      9.4
+Location           长寿路155号巴黎春天5楼
+Name: 5872, dtype: object
+口味最好：
+ Cuisine                               火锅
+Name                                大钏锅物
+Star                                  50
+Comments                             402
+Per_Consumption                      337
+Taste                                9.3
+Environment                          9.3
+Service                              9.3
+Location           福山路312号世纪大都会B1层B110B室
+Name: 5925, dtype: object
+口味最好：
+ Cuisine                             火锅
+Name                    季悦火锅(虹桥迎宾馆店)分店
+Star                                50
+Comments                           466
+Per_Consumption                   1012
+Taste                              9.3
+Environment                        9.3
+Service                            9.3
+Location           虹桥路1591号虹桥迎宾馆内6号楼2楼
+Name: 5961, dtype: object
+口味最好：
+ Cuisine                             西餐
+Name                Reve Kitchen创意法式料理
+Star                                50
+Comments                            77
+Per_Consumption                    232
+Taste                              9.3
+Environment                        9.3
+Service                            9.3
+Location           申长路988号虹桥万科中心LG229号
+Name: 10726, dtype: object
+口味最好：
+ Cuisine                          西餐
+Name                          红花铁板烧
+Star                             50
+Comments                        902
+Per_Consumption                 745
+Taste                           9.3
+Environment                     9.1
+Service                         9.4
+Location           古羊路1129号名都城俱乐部后廊
+Name: 10752, dtype: object
+口味最好：
+ Cuisine                                  其他
+Name                                     樽宴
+Star                                     50
+Comments                                104
+Per_Consumption                        1352
+Taste                                   9.3
+Environment                             9.1
+Service                                 9.3
+Location           芳甸路777号往北第二个路口右转，第一栋281号
+Name: 11407, dtype: object
+口味最好：
+ Cuisine                 其他
+Name                关小刀即时捞
+Star                    50
+Comments               103
+Per_Consumption         94
+Taste                  9.3
+Environment              9
+Service                9.3
+Location           尚博路687号
+Name: 11430, dtype: object
+
+环境最佳：
+ Cuisine                      粤菜
+Name                     瑞华樟园广告
+Star                         50
+Comments                    273
+Per_Consumption             545
+Taste                       9.1
+Environment                 9.4
+Service                     9.1
+Location           凯旋北路1555弄66号
+Name: 2803, dtype: object
+环境最佳：
+ Cuisine               本帮江浙菜
+Name                 西郊壹号分店
+Star                     50
+Comments                607
+Per_Consumption         682
+Taste                   9.1
+Environment             9.4
+Service                 9.1
+Location           虹桥路1950号
+Name: 3611, dtype: object
+环境最佳：
+ Cuisine                     火锅
+Name               季悦火锅(锦江店)分店
+Star                        50
+Comments                   446
+Per_Consumption            886
+Taste                      9.3
+Environment                9.4
+Service                    9.3
+Location               茂名南路59号
+Name: 5857, dtype: object
+环境最佳：
+ Cuisine                           火锅
+Name                  锅季—捞王旗下品牌(小火锅)
+Star                              50
+Comments                        1019
+Per_Consumption                  126
+Taste                            9.2
+Environment                      9.4
+Service                          9.4
+Location           申长路869号A馆2楼L2-31号
+Name: 5978, dtype: object
+环境最佳：
+ Cuisine                          日本菜
+Name                ANTHOLOGIA地球美食剧场
+Star                              50
+Comments                         591
+Per_Consumption                 1134
+Taste                              9
+Environment                      9.4
+Service                          9.3
+Location           番禺路381号D栋105-107室
+Name: 7899, dtype: object
+环境最佳：
+ Cuisine                  西餐
+Name                    麒麟阁
+Star                     45
+Comments                125
+Per_Consumption         193
+Taste                   8.7
+Environment             9.4
+Service                 8.6
+Location           金科路东郊宾馆内
+Name: 10810, dtype: object
+环境最佳：
+ Cuisine                     西餐
+Name               Aurora  绚景楼
+Star                        50
+Comments                   107
+Per_Consumption            921
+Taste                      9.1
+Environment                9.4
+Service                    9.4
+Location           上海迪士尼乐园酒店八楼
+Name: 10839, dtype: object
+
+服务最棒：
+ Cuisine                       火锅
+Name                赤鼎麻辣锅(巴黎春天店)
+Star                          50
+Comments                     621
+Per_Consumption              130
+Taste                        9.3
+Environment                  9.2
+Service                      9.4
+Location           长寿路155号巴黎春天5楼
+Name: 5872, dtype: object
+服务最棒：
+ Cuisine                            火锅
+Name                       潮界(绿地缤纷城店)
+Star                               50
+Comments                          199
+Per_Consumption                    75
+Taste                             9.2
+Environment                         9
+Service                           9.4
+Location           东安路562号绿地缤纷城东区h201
+Name: 5923, dtype: object
+服务最棒：
+ Cuisine                               火锅
+Name                       海底捞火锅(龙茗路店)分店
+Star                                  50
+Comments                            2884
+Per_Consumption                      126
+Taste                                9.2
+Environment                          9.2
+Service                              9.4
+Location           龙茗路1300弄58号古美生活购物广场三层
+Name: 5927, dtype: object
+服务最棒：
+ Cuisine                           火锅
+Name                  锅季—捞王旗下品牌(小火锅)
+Star                              50
+Comments                        1019
+Per_Consumption                  126
+Taste                            9.2
+Environment                      9.4
+Service                          9.4
+Location           申长路869号A馆2楼L2-31号
+Name: 5978, dtype: object
+服务最棒：
+ Cuisine                         西餐
+Name               O2ZONE氧舍(中山北路店)
+Star                            50
+Comments                       587
+Per_Consumption                 73
+Taste                          9.2
+Environment                    9.3
+Service                        9.4
+Location                  中山北路756号
+Name: 10638, dtype: object
+服务最棒：
+ Cuisine                 西餐
+Name                PizzaD
+Star                    50
+Comments               269
+Per_Consumption         60
+Taste                  9.2
+Environment            8.7
+Service                9.4
+Location           东昌路508号
+Name: 10704, dtype: object
+服务最棒：
+ Cuisine                          西餐
+Name                          红花铁板烧
+Star                             50
+Comments                        902
+Per_Consumption                 745
+Taste                           9.3
+Environment                     9.1
+Service                         9.4
+Location           古羊路1129号名都城俱乐部后廊
+Name: 10752, dtype: object
+服务最棒：
+ Cuisine                     西餐
+Name               Aurora  绚景楼
+Star                        50
+Comments                   107
+Per_Consumption            921
+Taste                      9.1
+Environment                9.4
+Service                    9.4
+Location           上海迪士尼乐园酒店八楼
+Name: 10839, dtype: object
+
+最昂贵的菜系：日本菜 人均：236.32元
+最受欢迎的菜系：火锅 平均有：3047条评论
