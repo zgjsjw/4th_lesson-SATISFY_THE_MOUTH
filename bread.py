@@ -3,10 +3,14 @@ import os
 import pandas as pd
 from sklearn.model_selection import train_test_split, GridSearchCV
 from pyecharts import Bar, Pie, Radar, Scatter
-import matplotlib.pyplot as plt
 from sklearn import preprocessing as pre
 from sklearn.feature_selection import SelectPercentile as SP
 import time
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.svm import SVC
+import matplotlib.pyplot as plt
 
 data_in = './data/City_bread_Data.xlsx'
 data_out = './result'
@@ -161,7 +165,7 @@ def learning_of_bread(data):
     features = data[['Cuisine', 'Comments', 'Per_Consumption', 'Taste', 'Environment', 'Service']].values
     label = data['Star'].values
     # 选取重要性特征
-    fea_select = SP(percentile=80)
+    fea_select = SP(percentile=85)
     fea_select.fit(features, label)
     print(fea_select.get_support())
     print(fea_select.scores_)
@@ -176,20 +180,20 @@ def train_model_of_bread(x_train, y_train, x_test, y_test, model_name, model, pa
     GSCV = GridSearchCV(estimator=model,
                         param_grid=params,
                         scoring='f1',
-                        cv=10,
+                        cv=5,
                         refit=True)
     # 模型训练，开始计时
     start_time = time.time()
     GSCV.fit(x_train, y_train)
     end_time = time.time()
     duration = end_time - start_time
-    print('训练耗时{.4f}s'.format(duration))
+    print('训练耗时{:.4f}s'.format(duration))
     # 计算训练准确率
     train_score = GSCV.score(x_train, y_train)
-    print('训练准确率{.3f}%'.format(train_score * 100))
+    print('训练准确率{:.3f}%'.format(train_score * 100))
     # 计算测试准确率
     test_score = GSCV.score(x_test, y_test)
-    print('测试准确率{.3f}%'.format(test_score * 100))
+    print('测试准确率{:.3f}%'.format(test_score * 100))
     return GSCV, duration, test_score
 
 
@@ -199,21 +203,38 @@ def main():
     else:
         bread_data = pd.read_csv(os.path.join(data_out, 'new_bread.csv'))
 
-    #分割测试、训练数据
+    # 分割测试、训练数据
     train_data, test_data = train_test_split(bread_data, test_size=1 / 4, random_state=0)
-    print(train_data)
-    print(test_data)
 
-    #特征工程
+    # 特征工程
     print('\n===================== 特征工程 =====================\n')
     train_fea, train_label = learning_of_bread(train_data)
-    test_fea, teat_label = learning_of_bread(test_data)
+    test_fea, test_label = learning_of_bread(test_data)
 
-    #数据建模和验证
+    # 数据建模和验证
     print('\n===================数据建模及验证 ==================\n')
-    model_para_dic = {}
+    model_para_dic = {'kNN': (KNeighborsClassifier(), {'n_neighbors': [5, 20, 50]}),
+                      'LR': (LogisticRegression(), {'C': [0.01, 1, 100]}),
+                      'DT': (DecisionTreeClassifier(), {'max_depth': [10, 30, 80]}),
+                      'SVM': (SVC(), {'C': [0.01, 1, 100]})}
+    result = pd.DataFrame(columns=['Accuracy(%)', 'duration(s)'], index=model_para_dic.keys())
 
-    train_model_of_bread()
+    for model_name, (model, paras) in model_para_dic.items():
+        GSCV, duration, acc = train_model_of_bread(train_fea, train_label, test_fea, test_label, model_name, model,
+                                                   paras)
+        result.loc[model_name, 'Accuracy(%)'] = acc * 100
+        result.loc[model_name, 'duration(s)'] = duration
+
+    print(result)
+    plt.figure()
+    ax1 = plt.subplot(1, 2, 1)
+    result.plot(y=['Accuracy(%)'], kind='bar', legend=False, ax=ax1, title='Accuracy(%)', ylim=[92, 94])
+    ax2 = plt.subplot(1, 2, 2)
+    result.plot(y=['duration(s)'], kind='bar', legend=False, ax=ax2, title='duration(s)')
+    plt.savefig(os.path.join(data_out, 'result.png'))
+    plt.show()
+
+    # train_model_of_bread()
 
     # kinds_of_bread(bread_data)
     # stars_of_bread(bread_data)
