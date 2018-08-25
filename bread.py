@@ -1,8 +1,12 @@
 # -*- coding:utf-8 -*-
 import os
 import pandas as pd
+from sklearn.model_selection import train_test_split, GridSearchCV
 from pyecharts import Bar, Pie, Radar, Scatter
 import matplotlib.pyplot as plt
+from sklearn import preprocessing as pre
+from sklearn.feature_selection import SelectPercentile as SP
+import time
 
 data_in = './data/City_bread_Data.xlsx'
 data_out = './result'
@@ -148,6 +152,45 @@ def scores_of_bread(data):
 
 
 # 机器学习部分
+def learning_of_bread(data):
+    # 对星级进行二值化
+    data[['Star']] = pre.Binarizer(threshold=39).transform(data[['Star']])
+    # 将菜系类别变量转换成数值变量
+    data['Cuisine'] = pre.LabelEncoder().fit_transform(data['Cuisine'])
+    # 选取特征和标签
+    features = data[['Cuisine', 'Comments', 'Per_Consumption', 'Taste', 'Environment', 'Service']].values
+    label = data['Star'].values
+    # 选取重要性特征
+    fea_select = SP(percentile=80)
+    fea_select.fit(features, label)
+    print(fea_select.get_support())
+    print(fea_select.scores_)
+    fea_new = features[:, fea_select.get_support()]
+    # 特征归一化处理
+    stand_fea = pre.MinMaxScaler().fit_transform(fea_new)
+    return stand_fea, label
+
+
+def train_model_of_bread(x_train, y_train, x_test, y_test, model_name, model, params):
+    print('训练模型{}：'.format(model_name))
+    GSCV = GridSearchCV(estimator=model,
+                        param_grid=params,
+                        scoring='f1',
+                        cv=10,
+                        refit=True)
+    # 模型训练，开始计时
+    start_time = time.time()
+    GSCV.fit(x_train, y_train)
+    end_time = time.time()
+    duration = end_time - start_time
+    print('训练耗时{.4f}s'.format(duration))
+    # 计算训练准确率
+    train_score = GSCV.score(x_train, y_train)
+    print('训练准确率{.3f}%'.format(train_score * 100))
+    # 计算测试准确率
+    test_score = GSCV.score(x_test, y_test)
+    print('测试准确率{.3f}%'.format(test_score * 100))
+    return GSCV, duration, test_score
 
 
 def main():
@@ -156,11 +199,28 @@ def main():
     else:
         bread_data = pd.read_csv(os.path.join(data_out, 'new_bread.csv'))
 
-    #kinds_of_bread(bread_data)
-    #stars_of_bread(bread_data)
-    pcc_of_bread(bread_data)
-    #comments_of_bread(bread_data)
-    #scores_of_bread(bread_data)
+    #分割测试、训练数据
+    train_data, test_data = train_test_split(bread_data, test_size=1 / 4, random_state=0)
+    print(train_data)
+    print(test_data)
+
+    #特征工程
+    print('\n===================== 特征工程 =====================\n')
+    train_fea, train_label = learning_of_bread(train_data)
+    test_fea, teat_label = learning_of_bread(test_data)
+
+    #数据建模和验证
+    print('\n===================数据建模及验证 ==================\n')
+    model_para_dic = {}
+
+    train_model_of_bread()
+
+    # kinds_of_bread(bread_data)
+    # stars_of_bread(bread_data)
+    # pcc_of_bread(bread_data)
+    # comments_of_bread(bread_data)
+    # scores_of_bread(bread_data)
+    # learning_of_bread(bread_data)
 
 
 if __name__ == '__main__':
