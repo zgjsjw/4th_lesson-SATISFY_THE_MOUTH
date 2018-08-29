@@ -62,10 +62,16 @@ def kinds_of_bread(data):
 # 再来看看餐厅星级分布情况
 def stars_of_bread(data):
     stars = data['Star'].value_counts().sort_index()
+    stars_pcc = data.groupby('Star')['Per_Consumption'].mean()
     starts_fig = Pie("Stars of Restaurant", title_pos='center')
     starts_fig.add('', ['0星', '2星', '3星', '3.5星', '4星', '4.5星', '5星'], stars.values, legend_pos='left',
                    legend_orient='vertical', is_label_show=True, rosetype='radius')
     starts_fig.render(os.path.join(data_out, 'stars_of_bread.html'))
+
+    plt.figure()
+    # plt.axis(rotation=90)
+    stars_pcc.plot(kind='barh')
+    plt.show()
 
 
 # 尝试看下能不能分析地域图（用echarts或者Tableau）
@@ -130,18 +136,24 @@ def scores_of_bread(data):
     scores_fig1.add('', [result_show])
     scores_fig1.render(os.path.join(data_out, 'scores1_of_bread.html'))
 
-    # taste_index_list = []
+    result = pd.DataFrame(columns=data.columns)
     for index, item in enumerate(data['Taste']):
         if item == data['Taste'].max():
-            print('口味最好：\n', data.loc[index])
+            # print('口味最好：\n', data.loc[index])
+            # print(data.loc[index].info())
+            result = result.append(data.loc[index])
 
     for index, item in enumerate(data['Environment']):
         if item == data['Environment'].max():
-            print('环境最佳：\n', data.loc[index])
+            # print('环境最佳：\n', data.loc[index])
+            result = result.append(data.loc[index])
 
     for index, item in enumerate(data['Service']):
         if item == data['Service'].max():
-            print('服务最棒：\n', data.loc[index])
+            # print('服务最棒：\n', data.loc[index])
+            result = result.append(data.loc[index])
+
+    result.to_csv(os.path.join(data_out, 'result_of_best.csv'), encoding='utf-8-sig')
 
     print('最昂贵的菜系：%s' % data.groupby('Cuisine')['Per_Consumption'].mean().idxmax(),
           '人均：%.2f元' % data.groupby('Cuisine')['Per_Consumption'].mean().max())
@@ -159,8 +171,10 @@ def scores_of_bread(data):
 def learning_of_bread(data):
     # 对星级进行二值化
     data[['Star']] = pre.Binarizer(threshold=39).transform(data[['Star']])
+    print(data[['Star']])
     # 将菜系类别变量转换成数值变量
     data['Cuisine'] = pre.LabelEncoder().fit_transform(data['Cuisine'])
+    print(data['Cuisine'])
     # 选取特征和标签
     features = data[['Cuisine', 'Comments', 'Per_Consumption', 'Taste', 'Environment', 'Service']].values
     label = data['Star'].values
@@ -170,8 +184,10 @@ def learning_of_bread(data):
     print(fea_select.get_support())
     print(fea_select.scores_)
     fea_new = features[:, fea_select.get_support()]
+    print(fea_new)
     # 特征归一化处理
     stand_fea = pre.MinMaxScaler().fit_transform(fea_new)
+    print(stand_fea)
     return stand_fea, label
 
 
@@ -210,7 +226,7 @@ def main():
     print('\n===================== 特征工程 =====================\n')
     train_fea, train_label = learning_of_bread(train_data)
     test_fea, test_label = learning_of_bread(test_data)
-
+    '''
     # 数据建模和验证
     print('\n===================数据建模及验证 ==================\n')
     model_para_dic = {'kNN': (KNeighborsClassifier(), {'n_neighbors': [5, 20, 50]}),
@@ -222,9 +238,9 @@ def main():
     for model_name, (model, paras) in model_para_dic.items():
         GSCV, duration, acc = train_model_of_bread(train_fea, train_label, test_fea, test_label, model_name, model,
                                                    paras)
-        result.loc[model_name, 'Accuracy(%)'] = acc * 100
-        result.loc[model_name, 'duration(s)'] = duration
-
+        result.loc[model_name, 'Accuracy(%)'] = round(acc * 100, 3)
+        result.loc[model_name, 'duration(s)'] = round(duration, 4)
+    
     print(result)
     plt.figure()
     ax1 = plt.subplot(1, 2, 1)
@@ -233,7 +249,7 @@ def main():
     result.plot(y=['duration(s)'], kind='bar', legend=False, ax=ax2, title='duration(s)')
     plt.savefig(os.path.join(data_out, 'result.png'))
     plt.show()
-
+    '''
     # train_model_of_bread()
 
     # kinds_of_bread(bread_data)
