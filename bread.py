@@ -171,23 +171,23 @@ def scores_of_bread(data):
 def learning_of_bread(data):
     # 对星级进行二值化
     data[['Star']] = pre.Binarizer(threshold=39).transform(data[['Star']])
-    print(data[['Star']])
+    # print('Star二值化结果：\n', data['Star'].values)
     # 将菜系类别变量转换成数值变量
     data['Cuisine'] = pre.LabelEncoder().fit_transform(data['Cuisine'])
-    print(data['Cuisine'])
+    # print('菜系变量转数值变量：\n', data['Cuisine'].values)
     # 选取特征和标签
     features = data[['Cuisine', 'Comments', 'Per_Consumption', 'Taste', 'Environment', 'Service']].values
     label = data['Star'].values
     # 选取重要性特征
     fea_select = SP(percentile=85)
     fea_select.fit(features, label)
-    print(fea_select.get_support())
-    print(fea_select.scores_)
+    # print(fea_select.get_support())
+    # print(fea_select.scores_)
     fea_new = features[:, fea_select.get_support()]
-    print(fea_new)
+    # print(fea_new)
     # 特征归一化处理
     stand_fea = pre.MinMaxScaler().fit_transform(fea_new)
-    print(stand_fea)
+    # print(stand_fea)
     return stand_fea, label
 
 
@@ -211,6 +211,31 @@ def train_model_of_bread(x_train, y_train, x_test, y_test, model_name, model, pa
     test_score = GSCV.score(x_test, y_test)
     print('测试准确率{:.3f}%'.format(test_score * 100))
     return GSCV, duration, test_score
+
+
+def improve_of_bread(x_train, y_train, x_test, y_test):
+    lr0 = LogisticRegression()
+    lr0.fit(x_train, y_train)
+    print('默认参数测试集测试准确率：\n', lr0.score(x_test, y_test))
+    para1 = {'C': [i / 100 for i in (1, 10000)],
+             'intercept_scaling': [i / 10 for i in (1, 100)],
+             'max_iter': [i for i in (1, 200)],
+             'tol': [i / 10000 for i in (1, 100)]}
+    lr1 = GridSearchCV(estimator=
+                       LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+                                          intercept_scaling=1, max_iter=100, multi_class='ovr', n_jobs=1,
+                                          penalty='l2', random_state=None, solver='liblinear', tol=0.0001,
+                                          verbose=0, warm_start=False),
+                       param_grid=para1,
+                       scoring='f1',
+                       cv=5,
+                       refit=True)
+    lr1.fit(x_train, y_train)
+    print(lr1.best_params_)
+    print(lr1.best_score_)
+    result = lr1.score(x_test, y_test)
+    print('调参后测试集测试准确率：\n', result)
+    return lr1.best_params_
 
 
 def main():
@@ -249,15 +274,25 @@ def main():
     result.plot(y=['duration(s)'], kind='bar', legend=False, ax=ax2, title='duration(s)')
     plt.savefig(os.path.join(data_out, 'result.png'))
     plt.show()
-    '''
     # train_model_of_bread()
-
+    '''
     # kinds_of_bread(bread_data)
     # stars_of_bread(bread_data)
     # pcc_of_bread(bread_data)
     # comments_of_bread(bread_data)
     # scores_of_bread(bread_data)
     # learning_of_bread(bread_data)
+    # best_bread_para = improve_of_bread(train_fea, train_label, test_fea, test_label)
+    # print(best_bread_para)
+    best_bread = LogisticRegression(C=100, intercept_scaling=10, max_iter=200, tol=0.0001)
+    # print(best_bread)
+    label = pre.Binarizer(threshold=39).transform(bread_data[['Star']])
+    # print(label)
+    feature = bread_data[['Comments', 'Per_Consumption', 'Taste', 'Environment', 'Service']].values
+    # print(feature)
+    best_bread.fit(feature, label)
+    is_good = best_bread.predict([[1002, 58, 6.8, 7.2, 7.4]])
+    print(is_good)
 
 
 if __name__ == '__main__':
